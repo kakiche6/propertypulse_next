@@ -8,4 +8,5 @@ const PropertiesPage = () => {
     </div>
   );
 };
+
 export default PropertiesPage;
