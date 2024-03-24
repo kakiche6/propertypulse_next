@@ -34,7 +34,7 @@ const PropertyAddForm = () => {
     setMounted(true);
   }, []);
 
-  const handleChange = () => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
 
     // Check if nested property
@@ -57,7 +57,7 @@ const PropertyAddForm = () => {
     }
   };
 
-  const handleAmenitiesChange = () => {
+  const handleAmenitiesChange = (e) => {
     const { value, checked } = e.target;
 
     // Clone the current array
@@ -82,7 +82,7 @@ const PropertyAddForm = () => {
     }));
   };
 
-  const handleImageChange = () => {
+  const handleImageChange = (e) => {
     const { files } = e.target;
 
     // Clone images array
