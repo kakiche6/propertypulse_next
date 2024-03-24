@@ -34,9 +34,71 @@ const PropertyAddForm = () => {
     setMounted(true);
   }, []);
 
-  const handleChange = () => {};
-  const handleAmenitiesChange = () => {};
-  const handleImageChange = () => {};
+  const handleChange = () => {
+    const { name, value } = e.target;
+
+    // Check if nested property
+    if (name.includes(".")) {
+      const [outerKey, innerKey] = name.split(".");
+
+      setFields((prevFields) => ({
+        ...prevFields,
+        [outerKey]: {
+          ...prevFields[outerKey],
+          [innerKey]: value,
+        },
+      }));
+    } else {
+      // Not nested
+      setFields((prevFields) => ({
+        ...prevFields,
+        [name]: value,
+      }));
+    }
+  };
+
+  const handleAmenitiesChange = () => {
+    const { value, checked } = e.target;
+
+    // Clone the current array
+    const updatedAmenites = [...fields.amenities];
+
+    if (checked) {
+      // Add value to array
+      updatedAmenites.push(value);
+    } else {
+      // Remove value from array
+      const index = updatedAmenites.indexOf(value);
+
+      if (index !== -1) {
+        updatedAmenites.splice(index, 1);
+      }
+    }
+
+    // Update state with updated array
+    setFields((prevFields) => ({
+      ...prevFields,
+      amenities: updatedAmenites,
+    }));
+  };
+
+  const handleImageChange = () => {
+    const { files } = e.target;
+
+    // Clone images array
+    const updatedImages = [...fields.images];
+
+    // Add new files to the array
+    for (const file of files) {
+      updatedImages.push(file);
+    }
+
+    // Update state with array of images
+    setFields((prevFields) => ({
+      ...prevFields,
+      images: updatedImages,
+    }));
+  };
 
   return (
     mounted && (
@@ -46,15 +108,12 @@ const PropertyAddForm = () => {
         </h2>
 
         <div className="mb-4">
-          <label
-            htmlFor="property_type"
-            className="block text-gray-700 font-bold mb-2"
-          >
+          <label htmlFor="type" className="block text-gray-700 font-bold mb-2">
             Property Type
           </label>
           <select
-            id="property_type"
-            name="property_type"
+            id="type"
+            name="type"
             className="border rounded w-full py-2 px-3"
             required
             value={fields.type}
